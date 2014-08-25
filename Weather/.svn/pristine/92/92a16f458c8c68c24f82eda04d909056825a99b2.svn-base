@@ -1,0 +1,15 @@
+package org.zhouli.utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class DateUtils {
+	
+	public static final String getNowDate(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyÄêmmÔÂddÈÕ");
+		Date dates = new Date(System.currentTimeMillis());
+		String times = sdf.format(dates);
+		return times;
+	}
+
+}

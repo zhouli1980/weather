@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/weather_rootLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical">
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/org2_tianqibeijing3">
+        <RelativeLayout 
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout 
+                android:id="@+id/rlTimes"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:id="@+id/widget_tvTimes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:textColor="@android:color/white"
+                    android:textSize="45sp" />
+
+                <TextView
+                    android:id="@+id/Widget_tvCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/rlTimes"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/widget_tvWeeks"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical|center"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp" />
+
+               <TextView
+                   android:id="@+id/widget_tvAmPm"
+                   android:layout_width="fill_parent"
+                   android:layout_height="20dp"
+                   android:layout_weight="1"
+                   android:gravity="center_horizontal"
+                   android:textColor="@android:color/white"
+                   android:textSize="15sp" />
+ 
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout 
+            android:id="@+id/rlWeahters"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent">
+			<LinearLayout 
+			    android:orientation="horizontal"
+			    android:layout_width="wrap_content"
+			    android:layout_height="fill_parent">
+			    <LinearLayout 
+			        android:orientation="horizontal"
+			        android:layout_width="wrap_content"
+			        android:layout_height="fill_parent">
+
+			        <ImageView
+			            android:id="@+id/widget_imageWeather"
+			            android:layout_width="50dp"
+			            android:layout_height="50dp"
+			            android:layout_gravity="center_vertical|center_horizontal|center" />
+
+			    </LinearLayout>
+			    <LinearLayout 
+			        android:id="@+id/llWeathers"
+			        android:orientation="vertical"
+			        android:layout_width="80dp"
+			        android:layout_height="80dp">
+
+			        <TextView
+			            android:id="@+id/tvWendu"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_gravity="center_vertical|center_horizontal|center"
+			            android:layout_weight="1"
+			            android:gravity="center_horizontal|center_vertical"
+			            android:textColor="@android:color/white"
+			            android:textSize="20sp" />
+
+			        <TextView
+			            android:id="@+id/widget_tvWeather"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_gravity="center_vertical|center_horizontal|center"
+			            android:layout_weight="1"
+			            android:textColor="@android:color/white"
+			            android:textSize="12sp" />
+			        
+			    </LinearLayout>			    
+			</LinearLayout>
+            
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

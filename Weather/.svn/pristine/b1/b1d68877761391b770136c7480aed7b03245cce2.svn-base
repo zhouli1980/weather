@@ -1,0 +1,132 @@
+package org.zhouli.dbhelper;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class SqliteHelper extends SQLiteOpenHelper{
+	
+	public SqliteHelper(Context context, String name, CursorFactory factory,
+			int version) {
+		super(context, name, factory, version);
+		// TODO Auto-generated constructor stub
+	}
+
+	//创建天气情况表
+	public static final String TABLE_WEATHER =
+		"CREATE TABLE city_weather ("
+		+"id integer  PRIMARY KEY AUTOINCREMENT ,"
+		+"city varchar(50) ,"
+		+"city_en text ,"
+		+"date_y text,"
+		+"week	text,"
+		+"fchh	integer,"
+		+"cityid	integer,"
+		+"temp1	text,"
+		+"temp2	text,"
+		+"temp3	text,"
+		+"tempF1	text,"
+		+"tempF2	text,"
+		+"tempF3	text,"
+		+"weather1	text,"
+		+"weather2	text,"
+		+"weather3	text,"
+		+"img1	integer,"
+		+"img2	integer,"
+		+"img3	integer,"
+		+"img4	integer,"
+		+"img5	integer,"
+		+"img6	integer,"
+		+"img_single	text,"
+		+"img_title1	text,"
+		+"img_title2	text,"
+		+"img_title3	text,"
+		+"img_title4	text,"
+		+"img_title5	text,"
+		+"img_title6	text,"
+		+"img_title_single	text,"
+		+"wind1	text,"
+		+"wind2	text,"
+		+"wind3	text,"
+		+"wind4	text,"
+		+"wind5	text,"
+		+"wind6	text,"
+		+"fx1		text,"
+		+"fx2		text,"
+		+"fl1		text,"
+		+"fl2		text,"
+		+"fl3		text,"
+		+"indexs	text,"
+		+"index_d	text,"
+		+"index48	text,"
+		+"index48_d	text,"
+		+"index_uv	text,"
+		+"index48_uv	text,"
+		+"index_xc	text,"
+		+"index_tr	text,"
+		+"index_co	text,"
+		+"index_cl	text,"
+		+"index_ls	text,"
+		+"index_ag	text"
+		+");";
+	
+	//创建城市数据表
+	public static final String TABLE_CITY = "CREATE TABLE china_city_code "
+			+ "(_id integer  PRIMARY KEY AUTOINCREMENT ,"
+			+ "province text ,"
+			+ "city text ,"
+			+ "county text ,"
+			+ "code integer  );";
+	
+	//城市代码
+	public static final String getCityCode(){
+		StringBuilder sbcity=new StringBuilder();
+		sbcity.append("INSERT INTO china_city_code VALUES (1, '北京', '北京', '北京', 101010100);");
+		sbcity.append("INSERT INTO china_city_code VALUES (1, '北京', '北京', '北京', 101010100);");
+		sbcity.append("INSERT INTO china_city_code VALUES (3, '北京', '朝阳', '朝阳', 101010300);");
+		sbcity.append("INSERT INTO china_city_code VALUES (4, '北京', '顺义', '顺义', 101010400);");
+		sbcity.append("INSERT INTO china_city_code VALUES (5, '北京', '怀柔', '怀柔', 101010500);");
+		sbcity.append("INSERT INTO china_city_code VALUES (6, '北京', '通州', '通州', 101010600);");
+		sbcity.append("INSERT INTO china_city_code VALUES (7, '北京', '昌平', '昌平', 101010700);");
+		sbcity.append("INSERT INTO china_city_code VALUES (8, '北京', '延庆', '延庆', 101010800);");
+		sbcity.append("INSERT INTO china_city_code VALUES (9, '北京', '丰台', '丰台', 101010900);");
+		sbcity.append("INSERT INTO china_city_code VALUES (10, '北京', '石景山', '石景山', 101011000);");
+		sbcity.append("INSERT INTO china_city_code VALUES (11, '北京', '大兴', '大兴', 101011100);");
+		sbcity.append("INSERT INTO china_city_code VALUES (12, '北京', '房山', '房山', 101011200);");
+		sbcity.append("INSERT INTO china_city_code VALUES (13, '北京', '密云', '密云', 101011300);");
+		sbcity.append("INSERT INTO china_city_code VALUES (14, '北京', '门头沟', '门头沟', 101011400);");
+		sbcity.append("INSERT INTO china_city_code VALUES (15, '北京', '平谷', '平谷', 101011500);");
+		sbcity.append("INSERT INTO china_city_code VALUES (16, '北京', '八达岭', '八达岭', 101011600);");
+		sbcity.append("INSERT INTO china_city_code VALUES (17, '北京', '佛爷顶', '佛爷顶', 101011700);");
+		sbcity.append("INSERT INTO china_city_code VALUES (18, '北京', '汤河口', '汤河口', 101011800);");
+		sbcity.append("INSERT INTO china_city_code VALUES (19, '北京', '密云上甸子', '密云上甸子', 101011900);");
+		sbcity.append("INSERT INTO china_city_code VALUES (20, '北京', '斋堂', '斋堂', 101012000);");
+		sbcity.append("INSERT INTO china_city_code VALUES (21, '北京', '霞云岭', '霞云岭', 101012100);");
+		sbcity.append("INSERT INTO china_city_code VALUES (291, '内蒙古', '呼和浩特', '呼和浩特', 101080101);");
+		sbcity.append("INSERT INTO china_city_code VALUES (292, '内蒙古', '呼和浩特', '土默特左旗', 101080102);");
+		sbcity.append("INSERT INTO china_city_code VALUES (293, '内蒙古', '呼和浩特', '托克托', 101080103);");
+		sbcity.append("INSERT INTO china_city_code VALUES (294, '内蒙古', '呼和浩特', '和林格尔', 101080104);");
+		sbcity.append("INSERT INTO china_city_code VALUES (295, '内蒙古', '呼和浩特', '清水河', 101080105);");
+		sbcity.append("INSERT INTO china_city_code VALUES (297, '内蒙古', '呼和浩特', '武川', 101080107);");
+		return sbcity.toString();
+	}
+
+	
+	@Override
+	public void onCreate(SQLiteDatabase sqlite) {
+		// TODO Auto-generated method stub
+
+			sqlite.execSQL(TABLE_WEATHER);
+			sqlite.execSQL(TABLE_CITY);
+			sqlite.execSQL(getCityCode());
+			System.out.println("++++++++++++++++++sqliteHelper+++++++++++++++++++++++");
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

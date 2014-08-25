@@ -1,0 +1,139 @@
+package org.zhouli.activity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.zhouli.Location.LocationApplication;
+import org.zhouli.adapter.db.WeatherDBAdapter;
+import org.zhouli.model.CityWeather;
+import org.zhouli.weather.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+//import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
+//���µ���������ڶ�λ����
+
+
+public class WeatherActivity extends Activity {
+	
+	private static final String TAG= "MainActivity";
+	public LocationClient mLocationClicent;
+	public TextView tv ;
+	public Button but;
+	public List<CityWeather> list;
+	public ImageButton imageBnt;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main_weather);
+		//������Activity����ͼƬ
+		WeatherDBAdapter weatherdbadapter = new WeatherDBAdapter(WeatherActivity.this);
+		weatherdbadapter.open();
+		list = weatherdbadapter.getWeatherByCityName("北京");
+		System.out.println("��ȡ������" + list.get(0).getCity().toString());
+		imageBnt = (ImageButton)findViewById(R.id.imageBnt);
+		RelativeLayout rl = (RelativeLayout)findViewById(R.id.weatherActivity);
+		setBackgroundResource(rl);
+		
+//		imageBnt.setImageResource(R.drawable.night_00);
+		//rl.setBackgroundResource(R.drawable.sunny_day);
+
+		
+		if(list == null){
+		//���ö�λ����ж�λ
+		mLocationClicent = ((LocationApplication)getApplication()).mLocationClient;
+		tv = (TextView)findViewById(R.id.tv);
+		((LocationApplication)getApplication()).cityTv = tv;
+		but = (Button)findViewById(R.id.buts);
+		((LocationApplication)getApplication()).buts = but;
+
+		initLocation();
+		mLocationClicent.start();
+//		System.out.println(tv.getText());
+		}
+
+	}
+	
+	//������Activity������������ҹ��
+	private void setBackgroundResource(RelativeLayout rl){
+		SimpleDateFormat sdf = new SimpleDateFormat("HH");
+		Date dates = new Date(System.currentTimeMillis());
+		Integer times = Integer.valueOf(sdf.format(dates));
+		if(list.size() <= 0)
+		{
+			if(times >5 && times<18){
+				rl.setBackgroundResource(R.drawable.sunny_day);
+			}else{
+				rl.setBackgroundResource(R.drawable.night);
+			}
+			return;
+		}
+		if(times >5 && times<18){
+			//����
+			if(list.get(0).getWeather1().equals("多云")){
+				rl.setBackgroundResource(R.drawable.cloudy);
+			}
+			else{
+				rl.setBackgroundResource(R.drawable.sunny_day);
+			}
+		}else{
+			if(list.get(0).getWeather1().equals("多云")){
+				rl.setBackgroundResource(R.drawable.cloudys);
+			}
+			else{
+				rl.setBackgroundResource(R.drawable.night);
+				imageBnt.setImageResource(R.drawable.night_00);
+			}
+		}
+		String str = list.get(0).getWeather1();
+		if(str.equals("雷阵雨")){
+			rl.setBackgroundResource(R.drawable.thunderstorm);
+		}else if(str.equals("晴转多云")){
+			rl.setBackgroundResource(R.drawable.cloudy);
+		}else if(str.equals("雷阵雨转小雨")){
+			rl.setBackgroundResource(R.drawable.rain);
+		}else if(str.equals("阴")){
+			rl.setBackgroundResource(R.drawable.haze);
+		}else if(str.equals("沙尘暴")){
+			rl.setBackgroundResource(R.drawable.dust);
+		}else if(str.equals("雪")){
+			rl.setBackgroundResource(R.drawable.snow);
+		}
+	}
+	
+	private void initLocation(){
+		//���ðٶȶ�λ���ֲ���
+		LocationClientOption option = new LocationClientOption();
+		option.setLocationMode(LocationMode.Hight_Accuracy);//��λ����ģʽ
+		option.setCoorType("gcj02");//���ȶ�λ����
+		option.setScanSpan(1000);//���¶�λ���ʱ��
+		option.setIsNeedAddress(true);
+		option.setNeedDeviceDirect(true);
+		option.setProdName("WeatherForecast");//Ӧ�ó������ƣ�������Ҫ������ע���Ӧ��������Ӧ����Ȼ��λ���ɹ�
+		mLocationClicent.setLocOption(option);
+	}
+	
+	protected void onStop() {
+		//ֹͣ��λ
+		mLocationClicent.stop();
+		super.onStop();
+	}
+
+//	@Override ����
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.weather, menu);
+//		return true;
+//	}
+
+}

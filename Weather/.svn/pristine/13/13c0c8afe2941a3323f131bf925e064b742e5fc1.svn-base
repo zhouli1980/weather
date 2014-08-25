@@ -1,0 +1,61 @@
+package org.zhouli.Location;
+
+import org.zhouli.activity.WeatherActivity;
+import org.zhouli.utils.HttpUtils;
+
+import android.app.Application;
+import android.widget.TextView;
+
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+
+
+public class LocationApplication extends Application {
+	public LocationClient mLocationClient ;
+	public MyLocationListener myLocationListener;
+	public TextView cityTv;
+	
+	@Override
+	public void onCreate() {
+		// TODO Auto-generated method stub
+		super.onCreate();
+		mLocationClient = new LocationClient(this.getApplicationContext());
+		//×¢²á¶¨Î»¼àÌýÆ÷
+		myLocationListener = new MyLocationListener();
+		mLocationClient.registerLocationListener(myLocationListener);
+	}
+
+	public class MyLocationListener implements BDLocationListener{
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			// TODO Auto-generated method stub
+			if(location == null){
+				return;
+			}
+			cityTv.setText(location.getDistrict());
+			if(!cityTv.getText().equals("")){
+				mLocationClient.stop();
+			}
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					HttpUtils hu = new HttpUtils();
+					String reluts = hu.getReluts("101010100");
+					System.out.println(reluts);
+				}
+			}).start();
+
+		}
+		
+	}
+	
+}
+
+
+
+
+

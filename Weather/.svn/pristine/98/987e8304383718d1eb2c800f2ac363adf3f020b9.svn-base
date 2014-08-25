@@ -1,0 +1,116 @@
+package org.zhouli.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.zhouli.model.CityWeather;
+import org.zhouli.utils.DateUtils;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+
+public class WeatherDAO {
+	
+	//获取数据库中全部天气
+	public List<CityWeather> getWeather(SQLiteDatabase sqlitedatabase){
+		try{
+			
+			List<CityWeather> listWeather = new ArrayList<CityWeather>();
+			Cursor cursor = sqlitedatabase.query(CityWeather.TABLE_NAME, 
+					null, null, null, null, null, null);
+			while(cursor.moveToNext()){
+				listWeather.add(getCityWeatherByCursor(cursor));
+			}
+			return listWeather;
+		}catch(Exception err){
+			return null;
+		}
+	}
+	
+	//通过城市，当前日期获取数据库中的天气信息
+	public List<CityWeather> getWeatherByCityName(SQLiteDatabase sqlitedatabase,String cityName){
+		try{
+			List<CityWeather> listWeather = new ArrayList<CityWeather>();
+			String andText = cityName;
+			String nowDate = DateUtils.getNowDate();
+			Cursor cursor = sqlitedatabase.query(CityWeather.TABLE_NAME, null, "city = ? and date_y = ?",
+					new String[]{andText,nowDate},null,null,null);
+			while(cursor.moveToNext()){
+				listWeather.add(getCityWeatherByCursor(cursor));
+			}
+			return listWeather;
+		}catch(Exception err){
+			Log.e("getWeatherByCityName", err.getMessage());
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	//赋值给model
+	private CityWeather getCityWeatherByCursor(Cursor cursor){
+		CityWeather weather = new CityWeather();
+		weather.setId(cursor.getInt(cursor.getColumnIndex("id")));
+		weather.setCity(cursor.getString(cursor.getColumnIndex("city")));
+		weather.setCity_en(cursor.getString(cursor.getColumnIndex("city_en")));
+		weather.setDate_y(cursor.getString(cursor.getColumnIndex("date_y")));
+		weather.setWeek(cursor.getString(cursor.getColumnIndex("week")));
+		weather.setFchh(cursor.getInt(cursor.getColumnIndex("fchh")));
+		weather.setCityid(cursor.getInt(cursor.getColumnIndex("cityid")));
+		weather.setTemp1(cursor.getString(cursor.getColumnIndex("temp1")));
+		weather.setTemp2(cursor.getString(cursor.getColumnIndex("temp2")));
+		weather.setTemp3(cursor.getString(cursor.getColumnIndex("temp3")));
+		weather.setTempf1(cursor.getString(cursor.getColumnIndex("tempf1")));
+		weather.setTempf2(cursor.getString(cursor.getColumnIndex("tempf2")));
+		weather.setTempf3(cursor.getString(cursor.getColumnIndex("tempf3")));
+		weather.setWeather1(cursor.getString(cursor.getColumnIndex("weather1")));
+		weather.setWeather2(cursor.getString(cursor.getColumnIndex("weather2")));
+		weather.setWeather3(cursor.getString(cursor.getColumnIndex("weather3")));
+		weather.setImg1(cursor.getInt(cursor.getColumnIndex("img1")));
+		weather.setImg2(cursor.getInt(cursor.getColumnIndex("img2")));
+		weather.setImg3(cursor.getInt(cursor.getColumnIndex("img3")));
+		weather.setImg4(cursor.getInt(cursor.getColumnIndex("img4")));
+		weather.setImg5(cursor.getInt(cursor.getColumnIndex("img5")));
+		weather.setImg6(cursor.getInt(cursor.getColumnIndex("img6")));
+		weather.setImg_single(cursor.getString(cursor.getColumnIndex("img_single")));
+		weather.setImg_title1(cursor.getString(cursor.getColumnIndex("img_title1")));
+		weather.setImg_title2(cursor.getString(cursor.getColumnIndex("img_title2")));
+		weather.setImg_title3(cursor.getString(cursor.getColumnIndex("img_title3")));
+		weather.setImg_title4(cursor.getString(cursor.getColumnIndex("img_title4")));
+		weather.setImg_title5(cursor.getString(cursor.getColumnIndex("img_title5")));
+		weather.setImg_title6(cursor.getString(cursor.getColumnIndex("img_title6")));
+		weather.setImg_title_single(cursor.getString(cursor.getColumnIndex("img_title_single")));
+		weather.setWind1(cursor.getString(cursor.getColumnIndex("wind1")));
+		weather.setWind2(cursor.getString(cursor.getColumnIndex("wind2")));
+		weather.setWind3(cursor.getString(cursor.getColumnIndex("wind3")));
+		weather.setWind4(cursor.getString(cursor.getColumnIndex("wind4")));
+		weather.setWind5(cursor.getString(cursor.getColumnIndex("wind5")));
+		weather.setWind6(cursor.getString(cursor.getColumnIndex("wind6")));
+		weather.setFx1(cursor.getString(cursor.getColumnIndex("fx1")));
+		weather.setFx2(cursor.getString(cursor.getColumnIndex("fx2")));
+		weather.setFl1(cursor.getString(cursor.getColumnIndex("fl1")));
+		weather.setFl2(cursor.getString(cursor.getColumnIndex("fl2")));
+		weather.setFl3(cursor.getString(cursor.getColumnIndex("fl3")));
+		weather.setIndexs(cursor.getString(cursor.getColumnIndex("indexs")));
+		weather.setIndex_d(cursor.getString(cursor.getColumnIndex("index_d")));
+		weather.setIndex48(cursor.getString(cursor.getColumnIndex("index48")));
+		weather.setIndex48_d(cursor.getString(cursor.getColumnIndex("index48_d")));
+		weather.setIndex_uv(cursor.getString(cursor.getColumnIndex("index_uv")));
+		weather.setIndex48_uv(cursor.getString(cursor.getColumnIndex("index48_uv")));
+		weather.setIndex_xc(cursor.getString(cursor.getColumnIndex("index_xc")));
+		weather.setIndex_tr(cursor.getString(cursor.getColumnIndex("index_tr")));
+		weather.setIndex_co(cursor.getString(cursor.getColumnIndex("index_co")));
+		weather.setIndex_cl(cursor.getString(cursor.getColumnIndex("index_cl")));
+		weather.setIndex_ls(cursor.getString(cursor.getColumnIndex("index_ls")));
+		weather.setIndex_ag(cursor.getString(cursor.getColumnIndex("index_ag")));
+		return weather;
+	}
+
+}

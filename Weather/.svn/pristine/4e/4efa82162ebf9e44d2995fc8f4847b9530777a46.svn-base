@@ -1,0 +1,17 @@
+package org.zhouli.json.weather;
+
+public class WeatherTransJson {
+	
+	public String WeatherTransJson(String reluts){
+		String str = null;
+		if(!reluts.equals("")){
+			str = "传进来了！！有数据!!";
+			System.out.print(reluts);
+		}
+		else{
+			str = "没有数据！！";
+		}
+		return str;	
+	}
+
+}

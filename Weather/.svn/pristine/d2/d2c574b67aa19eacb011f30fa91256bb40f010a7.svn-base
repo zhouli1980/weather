@@ -1,0 +1,84 @@
+package org.zhouli.Location;
+
+import java.util.List;
+
+import org.json.JSONException;
+import org.zhouli.adapter.db.WeatherDBAdapter;
+import org.zhouli.json.weather.WeatherTransJson;
+import org.zhouli.model.CityWeather;
+import org.zhouli.utils.HttpUtils;
+
+import android.app.Application;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+
+
+public class LocationApplication extends Application {
+	public LocationClient mLocationClient ;
+	public MyLocationListener myLocationListener;
+	public TextView cityTv;
+	public String relutss;
+	public Button buts;
+	
+	@Override
+	public void onCreate() {
+		// TODO Auto-generated method stub
+		super.onCreate();
+		mLocationClient = new LocationClient(this.getApplicationContext());
+		//ע�ᶨλ������
+		myLocationListener = new MyLocationListener();
+		mLocationClient.registerLocationListener(myLocationListener);
+	}
+
+	public class MyLocationListener implements BDLocationListener{
+
+		@Override
+		public void onReceiveLocation(final BDLocation location) {
+			// TODO Auto-generated method stub
+			if(location == null){
+				return;
+			}
+			cityTv.setText(location.getCity());
+			
+			if(!cityTv.getText().equals("")){
+				mLocationClient.stop();
+				
+			}
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					WeatherTransJson wtj = new WeatherTransJson();
+					HttpUtils hu = new HttpUtils();
+					relutss = hu.getReluts("101010100");
+					System.out.println(relutss);
+					try {
+						CityWeather cityweather = wtj.WeatherTransJson(relutss);
+						if(cityweather != null){
+							WeatherDBAdapter weatherdbadapter = new WeatherDBAdapter(LocationApplication.this);
+							weatherdbadapter.open();
+							Long reluts = weatherdbadapter.addWeather(cityweather);
+//							List<CityWeather> list = weatherdbadapter.getCityWeather();
+							List<CityWeather> list = weatherdbadapter.getWeatherByCityName("1");
+							System.out.println("读取出的数据:" + list.get(0).getCity().toString());
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+
+		}
+		
+	}
+	
+}
+
+
+
+
+
