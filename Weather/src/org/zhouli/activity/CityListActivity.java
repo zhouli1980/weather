@@ -35,14 +35,16 @@ public class CityListActivity extends Activity {
 		setContentView(R.layout.city_name);
 		
 		listview = (ListView)findViewById(R.id.listCity);
-		//获取全部城市名称
+		//鑾峰彇鍏ㄩ儴鍩庡競鍚嶇О
 		CityNameDBAdapter citynamedbadapter = new CityNameDBAdapter(CityListActivity.this);
 		citynamedbadapter.open();
 		
 		cityList = citynamedbadapter.getCityAll();
-		//填充list
+		//濉厖list
 		listview.setAdapter(new ListAdapter(cityList));
 		listview.setOnItemClickListener(new onClickListLisenter());
+		
+		
 	}
 	
 	public class onClickListLisenter implements OnItemClickListener{
@@ -51,7 +53,7 @@ public class CityListActivity extends Activity {
 		public void onItemClick(AdapterView<?> arg0, View view, int pos,
 				long id) {
 			// TODO Auto-generated method stub
-			//点选某城市后返回WeathersActivity
+			//鐐归�夋煇鍩庡競鍚庤繑鍥濿eathersActivity
 			CityName cityname = cityList.get(pos);
 			Intent intent = new Intent(CityListActivity.this, WeatherActivity.class);
 			intent.putExtra("citycode", cityname.getCode());
@@ -62,7 +64,7 @@ public class CityListActivity extends Activity {
 		
 	}
 	
-	//listview 充填数据
+	//listview 鍏呭～鏁版嵁
 	public class ListAdapter extends BaseAdapter{
 
 		View[] itemViews;
@@ -70,7 +72,7 @@ public class CityListActivity extends Activity {
 		public ListAdapter(List<CityName> list){
 			itemViews = new View[list.size()];
 			for(int i=0;i<list.size();i++){
-				CityName getName = (CityName)list.get(i);//获取第I个对象
+				CityName getName = (CityName)list.get(i);//鑾峰彇绗琁涓璞�
 				itemViews[i] = makeItemView(getName.getCounty());
 				
 			}
@@ -104,19 +106,19 @@ public class CityListActivity extends Activity {
                            
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			//convertView为null的时候初始化convertView。  
+			//convertView涓簄ull鐨勬椂鍊欏垵濮嬪寲convertView銆�  
 			ViewHolder viewholder = null;
  			if(convertView == null){
  				viewholder = new ViewHolder();
- 				//加载ITEMS
+ 				//鍔犺浇ITEMS
  				convertView = inflater.inflate(R.layout.city_items, null);
- 				//初始化未显示的textview
+ 				//鍒濆鍖栨湭鏄剧ず鐨則extview
  				viewholder.tvName = (TextView)convertView.findViewById(R.id.tvItemCity);
  				convertView.setTag(viewholder);
 			}else{
 				viewholder = (ViewHolder)convertView.getTag();
 			}
- 			//设置未显示的名称
+ 			//璁剧疆鏈樉绀虹殑鍚嶇О
  			viewholder.tvName.setText(cityList.get(position).getCounty());
  			return convertView;
 		}
