@@ -51,7 +51,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 
-//********************************************************************************************
+//=================================================================
 
 
 public class WeatherActivity extends Activity {
